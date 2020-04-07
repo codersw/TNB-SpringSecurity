@@ -34,10 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) {
-//        auth.authenticationProvider(null);
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -46,6 +42,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/form/login") // 处理表单登录 URL
                 .successHandler(authenticationSucessHandler) // 处理登录成功
                 .failureHandler(authenticationFailureHandler) // 处理登录失败
+                .and()
+                .logout() // 配置登出
+                .logoutUrl("/logout") // 处理登出 url
+                .logoutSuccessUrl("/login") // 登出后跳转到 /
+                .deleteCookies("JSESSIONID") // 删除 JSESSIONID
                 .and()
                 .authorizeRequests() // 授权配置
                 .antMatchers(anonUrl)// 免认证静态资源路径

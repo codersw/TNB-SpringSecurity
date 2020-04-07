@@ -1,5 +1,7 @@
 package com.tnb.security.demo.controller;
 
+import com.tnb.security.demo.entity.co.TagAddCo;
+import com.tnb.security.demo.enums.IsDelEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,8 @@ import com.tnb.security.demo.entity.common.ResultGenerator;
 import com.tnb.security.demo.entity.common.PageResponse;
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Date;
+
 /**
  * <p>
  * 标签信息 前端控制器
@@ -66,8 +70,16 @@ public class TagController {
      @ApiOperation(value = "标签信息新增", notes = "标签信息新增")
      @PreAuthorize("hasAuthority('tag:add')")
      @PostMapping
-     public Result add(Tag tag) {
-         return ResultGenerator.genSuccessResult(tagService.save(tag));
+     public Result add(TagAddCo tag) {
+         return ResultGenerator.genSuccessResult(tagService.save(Tag.builder()
+                 .createTime(new Date())
+                 .createUserId(1)
+                 .modifyTime(new Date())
+                 .modifyUserId(1)
+                 .isDel(IsDelEnum.FALSE.getValue())
+                 .tagName(tag.getTagName())
+                 .tagDesc(tag.getTagDesc())
+                 .build()));
      }
 
      /**
