@@ -1,0 +1,27 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /
+  tomcat:
+    uri-encoding: utf-8
+spring:
+  profiles:
+    active: dev
+  #控制台日志输出取消颜色
+  output:
+    ansi:
+      enabled: always
+  application:
+    name: demand_pool
+#开启actuator
+management:
+  endpoints:
+    web:
+      exposure.include: "*"
+  endpoint:
+    health:
+      show-details: always
+keycloak:
+  cors: true
+  cors-allowed-methods: GET,POST,DELETE,PUT,OPTIONS
+  cors-allowed-headers: Accept,Accept-Encoding,Accept-Language,Authorization,Connection,Content-Type,Host,Origin,Referer,User-Agent,X-Requested-With
