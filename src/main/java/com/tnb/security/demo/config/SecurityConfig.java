@@ -1,6 +1,9 @@
 package com.tnb.security.demo.config;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tnb.security.demo.entity.common.ResultGenerator;
+import com.tnb.security.demo.enums.ResultCodeEnum;
 import com.tnb.security.demo.handler.MyAuthenticationFailureHandler;
 import com.tnb.security.demo.handler.MyAuthenticationSucessHandler;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,10 +13,17 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * SpringSecurity 配置
@@ -57,6 +67,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .anyRequest()  // 所有请求
                 .authenticated() // 都需要认证
-                .and().csrf().disable();
+                .and().csrf().disable().exceptionHandling()
+                .authenticationEntryPoint((request, response, e) -> {// 重写认证失败
+                    response.setContentType("application/json;charset=utf-8");
+                    PrintWriter out = response.getWriter();
+                    out.write(new ObjectMapper().writeValueAsString(ResultGenerator.genResult(ResultCodeEnum.UNAUTHORIZED)));
+                    out.flush();
+                    out.close();
+                });
     }
 }
