@@ -2,6 +2,7 @@ package com.tnb.security.demo.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tnb.security.demo.entity.common.CurrentUser;
+import com.tnb.security.demo.entity.pojo.Dept;
 import com.tnb.security.demo.entity.pojo.Menu;
 import com.tnb.security.demo.entity.pojo.User;
 import com.tnb.security.demo.mapper.DeptMapper;
@@ -40,7 +41,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         CurrentUser currentUser = null;
         if(user != null) {
             currentUser = MapperUtils.mapperBean(user, CurrentUser.class);
-            currentUser.setDeptName(deptMapper.selectById(currentUser.getDeptId()).getDeptName());
+            Dept dept = deptMapper.selectById(currentUser.getDeptId());
+            String deptName = "";
+            if (dept != null) {
+                deptName = dept.getDeptName();
+            }
+            currentUser.setDeptName(deptName);
             List<Menu> menus = menuMapper.getMenus(user.getUserId());
             currentUser.setPermissions(menus.stream().map(Menu::getPerms).collect(Collectors.joining(",")));
         }

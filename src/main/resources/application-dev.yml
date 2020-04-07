@@ -34,13 +34,14 @@ spring:
     charset: utf-8
     suffix: .html
 web:
-  anon-url: /actuator/**,/swagger-ui.html,/webjars/**,/swagger-resources/**,/v2/api-docs/**,/,/csrf,/form/login,/login.html,/login,/css/**,/js/**
+  anon-url: /actuator/**,/swagger-ui.html,/webjars/**,/swagger-resources/**,/v2/api-docs/**,/csrf,/form/login,/login.html,/login,/css/**,/js/**
 #此配置开启mybatis sql打印
 logging:
   level:
     com:
-      mango:
-        require:
-          mapper: debug
+      tnb:
+        security:
+          demo:
+            mapper: debug
 mybatis-plus:
   mapper-locations: classpath:/mapper/**.xml

@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,10 +19,15 @@ public class UserDetailService implements UserDetailsService {
     @Resource
     private IUserService userService;
 
+    @Resource
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         CurrentUser currentUser = userService.findByUserName(userName);
-        return new User(userName, currentUser.getPassword(), true,
+        // 判断用户是否存在
+        if(currentUser == null) { throw new UsernameNotFoundException("用户名不存在"); }
+        return new User(userName, passwordEncoder.encode(currentUser.getPassword()), true,
                 true, true,
                 true, AuthorityUtils.commaSeparatedStringToAuthorityList(currentUser.getPermissions()));
     }
