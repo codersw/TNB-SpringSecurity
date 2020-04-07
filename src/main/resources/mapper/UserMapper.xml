@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tnb.security.demo.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tnb.security.demo.entity.pojo.User">
+        <id column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="password" property="password" />
+        <result column="mobile" property="mobile" />
+        <result column="user_photo" property="userPhoto" />
+        <result column="sex" property="sex" />
+        <result column="dept_id" property="deptId" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="status" property="status" />
+        <result column="is_del" property="isDel" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id, user_name, password, mobile, user_photo, sex, dept_id, create_time, modify_time, status, is_del
+    </sql>
+
+    <select id="selectByUserName" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_user
+        WHERE
+        is_del = 0
+        AND user_name= #{userName}
+    </select>
+</mapper>

@@ -23,6 +23,7 @@
         <commons-collections.version>4.4</commons-collections.version>
         <commons-lang.version>3.9</commons-lang.version>
         <commons.io.version>2.5</commons.io.version>
+        <orika.version>1.5.4</orika.version>
     </properties>
 
     <dependencies>
@@ -67,6 +68,12 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
             <version>${mybaitsplus.version}</version>
+        </dependency>
+        <!-- orika实体拷贝框架-->
+        <dependency>
+            <groupId>ma.glasnost.orika</groupId>
+            <artifactId>orika-core</artifactId>
+            <version>${orika.version}</version>
         </dependency>
         <!--热部署-->
         <dependency>

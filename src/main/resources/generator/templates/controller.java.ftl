@@ -76,12 +76,12 @@ public class ${table.controllerName} {
      @PreAuthorize("hasAuthority('${entity?uncap_first}:view')")
      @GetMapping
      public Result list(${entity} ${entity?uncap_first}, PageRequest pageRequest) {
-          QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
-          //TODO 设置查询条件
+         QueryWrapper<${entity}> queryWrapper = new QueryWrapper<>();
+         //TODO 设置查询条件
 
-          Page<${entity}> page = new Page<>(pageRequest.getPageIndex(), pageRequest.getPageSize());
-          IPage<${entity}> ${entity?uncap_first}Page = ${table.serviceName?replace("I","")?uncap_first}.page(page, queryWrapper);
-          return ResultGenerator.genSuccessResult(PageResponse.<${entity}>builder().list(${entity?uncap_first}Page.getRecords()).total(${entity?uncap_first}Page.getTotal()).build());
+         Page<${entity}> page = new Page<>(pageRequest.getPageIndex(), pageRequest.getPageSize());
+         IPage<${entity}> ${entity?uncap_first}Page = ${table.serviceName?replace("I","")?uncap_first}.page(page, queryWrapper);
+         return ResultGenerator.genSuccessResult(PageResponse.<${entity}>builder().list(${entity?uncap_first}Page.getRecords()).total(${entity?uncap_first}Page.getTotal()).build());
      }
 
      /**
@@ -93,7 +93,7 @@ public class ${table.controllerName} {
      @PreAuthorize("hasAuthority('${entity?uncap_first}:add')")
      @PostMapping
      public Result add(${entity} ${entity?uncap_first}) {
-          return ResultGenerator.genSuccessResult(${table.serviceName?replace("I","")?uncap_first}.save(${entity?uncap_first}));
+         return ResultGenerator.genSuccessResult(${table.serviceName?replace("I","")?uncap_first}.save(${entity?uncap_first}));
      }
 
      /**
@@ -105,7 +105,7 @@ public class ${table.controllerName} {
      @PreAuthorize("hasAuthority('${entity?uncap_first}:delete')")
      @DeleteMapping("/{ids}")
      public Result delete(@PathVariable String ids) {
-          return ResultGenerator.genSuccessResult(${table.serviceName?replace("I","")?uncap_first}.removeByIds(Arrays.asList(ids.split(StringPool.COMMA))));
+         return ResultGenerator.genSuccessResult(${table.serviceName?replace("I","")?uncap_first}.removeByIds(Arrays.asList(ids.split(StringPool.COMMA))));
      }
 
      /**
@@ -117,7 +117,7 @@ public class ${table.controllerName} {
      @PreAuthorize("hasAuthority('${entity?uncap_first}:update')")
      @PutMapping
      public Result update(${entity} ${entity?uncap_first}) {
-          return ResultGenerator.genSuccessResult(${table.serviceName?replace("I","")?uncap_first}.updateById(${entity?uncap_first}));
+         return ResultGenerator.genSuccessResult(${table.serviceName?replace("I","")?uncap_first}.updateById(${entity?uncap_first}));
      }
 
      /**
@@ -129,7 +129,7 @@ public class ${table.controllerName} {
      @PreAuthorize("hasAuthority('${entity?uncap_first}:view')")
      @GetMapping("/{id:\\d+}")
      public Result detail(@PathVariable Integer id) {
-          return ResultGenerator.genSuccessResult(${table.serviceName?replace("I","")?uncap_first}.getById(id));
+         return ResultGenerator.genSuccessResult(${table.serviceName?replace("I","")?uncap_first}.getById(id));
      }
 }
 </#if>

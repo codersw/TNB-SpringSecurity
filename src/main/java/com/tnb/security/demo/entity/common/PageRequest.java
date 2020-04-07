@@ -1,6 +1,6 @@
 package com.tnb.security.demo.entity.common;
 
-import com.mango.demand.pool.enums.PageEnum;
+import com.tnb.security.demo.enums.PageEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
