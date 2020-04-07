@@ -1,21 +1,12 @@
 package com.tnb.security.demo.config;
 
 
+import com.tnb.security.demo.handler.MyAuthenticationFailureHandler;
+import com.tnb.security.demo.handler.MyAuthenticationSucessHandler;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
-import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
-import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 
 import javax.annotation.Resource;
 
@@ -23,30 +14,37 @@ import javax.annotation.Resource;
  * SpringSecurity 配置
  * @author swen
  */
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${web.anon-url}")
     private String[] anonUrl;
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().antMatchers(anonUrl);
-    }
+    @Resource
+    private MyAuthenticationSucessHandler authenticationSucessHandler;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(null);
-    }
+    @Resource
+    private MyAuthenticationFailureHandler authenticationFailureHandler;
+
+
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) {
+//        auth.authenticationProvider(null);
+//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        http
-            .csrf().disable()//关闭跨域保护
-            .authorizeRequests()// 请求设置
-            .anyRequest().authenticated()// 所有请求需要认证
-            .and().headers().cacheControl();// 取消缓存header
+        http.formLogin() // 表单登录
+                .loginPage("/login") // 登录跳转 URL
+                .loginProcessingUrl("/form/login") // 处理表单登录 URL
+                .successHandler(authenticationSucessHandler) // 处理登录成功
+                .failureHandler(authenticationFailureHandler) // 处理登录失败
+                .and()
+                .authorizeRequests() // 授权配置
+                .antMatchers(anonUrl)// 免认证静态资源路径
+                .permitAll()
+                .anyRequest()  // 所有请求
+                .authenticated() // 都需要认证
+                .and().csrf().disable();
     }
 }

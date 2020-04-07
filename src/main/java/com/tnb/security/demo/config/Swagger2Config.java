@@ -29,7 +29,7 @@ public class Swagger2Config {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.mango.demand.pool"))
+                .apis(RequestHandlerSelectors.basePackage("com.tnb.security.demo"))
                 .paths(PathSelectors.any())
                 .build();
     }

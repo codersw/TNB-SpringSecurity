@@ -1,14 +1,13 @@
 package com.tnb.security.demo.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tnb.security.demo.entity.common.CurrentUser;
 import com.tnb.security.demo.entity.pojo.Menu;
 import com.tnb.security.demo.entity.pojo.User;
 import com.tnb.security.demo.mapper.DeptMapper;
 import com.tnb.security.demo.mapper.MenuMapper;
 import com.tnb.security.demo.mapper.UserMapper;
-import com.tnb.security.demo.mapper.UserRoleMapper;
 import com.tnb.security.demo.service.IUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tnb.security.demo.utils.MapperUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +27,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
-
-    @Resource
-    private UserRoleMapper userRoleMapper;
 
     @Resource
     private DeptMapper deptMapper;
